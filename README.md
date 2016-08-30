@@ -1,6 +1,6 @@
 # pnc-to-wave
 
-Ruby tools to munge exported PNC transactions into a format
+Ruby tools to munge exported PNC transactions into a [format](https://support.waveapps.com/entries/22811726-Uploading-a-bank-or-credit-card-statement-in-CSV-format)
 easily importable by Wave Accounting.
 
 Right now all this does is negate the Amount column if the Transaction Type is a
