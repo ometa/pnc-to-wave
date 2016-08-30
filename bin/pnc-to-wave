@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+require File.expand_path("../../lib/pnc_to_wave", __FILE__)
+require 'optparse'
+require 'logger'
+
+class PncToWaveCli
+  ME = File.basename($0)
+
+  def initialize
+    @logger = Logger.new(STDOUT)
+    @logger.level = Logger::INFO
+    @logger.datetime_format = '%Y-%m-%d %H:%M:%S '
+    @opts = {}
+  end
+
+  def parse
+    OptionParser.new do |opts|
+      opts.banner = "Usage: #{ME} /path/to/pnc-transaction-export.csv"
+      opts.separator ''
+      opts.separator "Other options:"
+      opts.on('-h', '--help', 'Display this help text and exit') do
+        puts opts, "\n"
+        exit 0
+      end
+      opts.on('-v', '--verbose', 'Sets debug-level verbosity') do
+        @logger.level = Logger::DEBUG
+      end
+      opts.parse!(ARGV)
+    end
+
+    if ARGV.empty?
+      puts "You must supply a csv file."
+      puts "Run #{ME} --help for assistance."
+      exit 1
+    end
+
+    @filename = ARGV.shift
+  end
+
+  def run
+    m = PncToWave.new(@filename, @logger, @opts)
+    m.convert_debits_to_negative
+  end
+end
+
+cli = PncToWaveCli.new
+cli.parse
+cli.run
