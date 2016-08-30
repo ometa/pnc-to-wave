@@ -11,3 +11,9 @@ debit, and dumps the output to stdout in the format Wave Accounting expects.
 ```bash
 ./bin/pnc-to-wave /path/to/your/pnc-transaction-export.csv
 ```
+
+### Convenience Function
+
+```bash
+for i in $(seq 1 12); do ./bin/pnc-to-wave ~/Downloads/$i.csv > ~/Downloads/a_${i}.csv; done
+```

@@ -18,6 +18,7 @@ class PncToWave
   end
 
   def convert_debits_to_negative
+    # we don't care about the first row so we use headers: true to discard it.
     CSV.foreach(@raw_data, headers:true, skip_blanks: true).each do |row|
       next if row.to_hash.values.all?(&:empty?)
       if row[COLS[:transaction_type]] == "DEBIT" && !row[COLS[:amount]].start_with?("-")
